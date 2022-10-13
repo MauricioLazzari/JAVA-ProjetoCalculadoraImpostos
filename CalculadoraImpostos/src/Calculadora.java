@@ -1,5 +1,11 @@
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -12,6 +18,8 @@ import javax.swing.JOptionPane;
  */
 public class Calculadora extends javax.swing.JFrame {
 
+    Parametro param = new Parametro();
+    
     /**
      * Creates new form Calculadora
      */
@@ -34,12 +42,12 @@ public class Calculadora extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        rdArredonda = new javax.swing.JRadioButton();
+        rdTrunca = new javax.swing.JRadioButton();
         jLabel7 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        btnCalcular1 = new javax.swing.JButton();
+        rdCalcdifal = new javax.swing.JRadioButton();
+        btnAplicar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
@@ -128,9 +136,19 @@ public class Calculadora extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jRadioButton1.setText("Arredonda Impostos");
+        rdArredonda.setText("Arredonda Impostos");
+        rdArredonda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdArredondaActionPerformed(evt);
+            }
+        });
 
-        jRadioButton2.setText("Trunca Impostos");
+        rdTrunca.setText("Trunca Impostos");
+        rdTrunca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdTruncaActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -138,9 +156,14 @@ public class Calculadora extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Venda para Consumo", "Venda para Revenda", "Venda para Industrialização" }));
 
-        jRadioButton3.setText("Calcula Difal");
+        rdCalcdifal.setText("Calcula Difal");
 
-        btnCalcular1.setText("Aplicar");
+        btnAplicar.setText("Aplicar");
+        btnAplicar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAplicarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -152,13 +175,13 @@ public class Calculadora extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jRadioButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jRadioButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jRadioButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(rdArredonda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(rdTrunca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(rdCalcdifal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(btnCalcular1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAplicar, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -167,17 +190,17 @@ public class Calculadora extends javax.swing.JFrame {
                 .addGap(9, 9, 9)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
-                .addComponent(jRadioButton1)
+                .addComponent(rdArredonda)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton2)
+                .addComponent(rdTrunca)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton3)
+                .addComponent(rdCalcdifal)
                 .addGap(10, 10, 10)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnCalcular1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAplicar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -302,6 +325,11 @@ public class Calculadora extends javax.swing.JFrame {
         jLabel13.setText("%Red.Bas:");
 
         txtVlrProduto.setText("0,00");
+        txtVlrProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtVlrProdutoActionPerformed(evt);
+            }
+        });
 
         txtVlrIPI.setText("0,00");
 
@@ -550,14 +578,21 @@ public class Calculadora extends javax.swing.JFrame {
        
         //Variáveis responsáveis por coletar os dados digitados.
         //Replace para substituir a , por .
-        float vlrProduto = Float.parseFloat(txtVlrProduto.getText().replace(",", "."));
-        float vlrIPI = Float.parseFloat(txtVlrIPI.getText().replace(",", "."));
-        float vlrFrete = Float.parseFloat(txtVlrFrete.getText().replace(",", "."));
-        float vlrDespesa = Float.parseFloat(txtVlrDespesa.getText().replace(",", "."));
+        
+        
+        double vlrProduto = Double.parseDouble(txtVlrProduto.getText().replace(",", "."));
+        double vlrIPI = Double.parseDouble(txtVlrIPI.getText().replace(",", "."));
+        double vlrFrete = Double.parseDouble(txtVlrFrete.getText().replace(",", "."));
+        double vlrDespesa = Double.parseDouble(txtVlrDespesa.getText().replace(",", "."));
+        double vlrFcp = Double.parseDouble(txtFcp.getText().replace(",", "."));
+        
         String ufOrigem = cmbUfOrigem.getSelectedItem().toString();
         String ufDestino = cmbUfDestino.getSelectedItem().toString();
         String cst = cmbCST.getSelectedItem().toString();
         
+        
+        double formatFcp = icms.getFcp();
+
         if(ufOrigem == "--"){
             JOptionPane.showMessageDialog(null, "AVISO! Seleciona as UFs corretamente", "Aviso!", 2);
         }else{
@@ -565,11 +600,19 @@ public class Calculadora extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Seleciona uma CST", "Aviso", 2);
             }else if(cst == "00"){
             //Chamando o método de calculo do ICMS e passando valores como parâmetro.
-            icms.calculaICMS(vlrProduto, vlrIPI, vlrFrete, vlrDespesa, ufOrigem);
-            txtBaseICMS.setText(String.format("%.2f", icms.getBaseICMS()));
-            txtVlrICMS.setText(String.format("%.2f", icms.getVlrICMS()));
-            txtVlrFCP.setText(ufOrigem);
+            icms.calculaICMS(vlrProduto, vlrIPI, vlrFrete, vlrDespesa, ufOrigem, vlrFcp);
+            String resultadobaseismc = new DecimalFormat("#,##0.00").format(icms.getBaseICMS());
+            txtBaseICMS.setText(resultadobaseismc);
+            if(param.isArredonda() == true){
+                double formatIcms = icms.getVlrICMS();
+                txtVlrICMS.setText(param.arredondaIcms(formatIcms));
+                }else if(param.isTrunca() == true){
+                double formatIcms = icms.getVlrICMS();
+                txtVlrICMS.setText(param.truncaICMS(formatIcms));
+                }else{
+                txtVlrICMS.setText("Nenhum dos parâmetros marcados");    
             }
+        }
         }
     }//GEN-LAST:event_btnCalcularActionPerformed
 
@@ -580,6 +623,36 @@ public class Calculadora extends javax.swing.JFrame {
             txtRedBas.setEnabled(false);
         }
     }//GEN-LAST:event_cmbCSTActionPerformed
+
+    private void rdArredondaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdArredondaActionPerformed
+        if(rdArredonda.isSelected()){
+            rdTrunca.setSelected(false);
+        }
+    }//GEN-LAST:event_rdArredondaActionPerformed
+
+    private void rdTruncaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdTruncaActionPerformed
+        if(rdTrunca.isSelected()){
+            rdArredonda.setSelected(false);
+        }
+    }//GEN-LAST:event_rdTruncaActionPerformed
+
+    private void btnAplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicarActionPerformed
+        if(rdArredonda.isSelected()){
+            param.setArredonda(true);
+            param.setTrunca(false);
+        }else if(rdTrunca.isSelected()){
+            param.setTrunca(true);
+            param.setArredonda(false);
+        }else{
+            param.setArredonda(false);
+            param.setTrunca(false);
+        }
+            
+    }//GEN-LAST:event_btnAplicarActionPerformed
+
+    private void txtVlrProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVlrProdutoActionPerformed
+        
+    }//GEN-LAST:event_txtVlrProdutoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -616,9 +689,11 @@ public class Calculadora extends javax.swing.JFrame {
         });
     }
 
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAplicar;
     private javax.swing.JButton btnCalcular;
-    private javax.swing.JButton btnCalcular1;
     private javax.swing.JComboBox<String> cmbCST;
     private javax.swing.JComboBox<String> cmbUfDestino;
     private javax.swing.JComboBox<String> cmbUfOrigem;
@@ -651,9 +726,9 @@ public class Calculadora extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton rdArredonda;
+    private javax.swing.JRadioButton rdCalcdifal;
+    private javax.swing.JRadioButton rdTrunca;
     private javax.swing.JLabel txtBaseICMS;
     private javax.swing.JTextField txtFcp;
     private javax.swing.JTextField txtMva;
@@ -665,4 +740,5 @@ public class Calculadora extends javax.swing.JFrame {
     private javax.swing.JTextField txtVlrIPI;
     private javax.swing.JTextField txtVlrProduto;
     // End of variables declaration//GEN-END:variables
+    private JTextField txtVlrProduto = new JFormattedTextField(new MaskFormatter("######,##"));
 }
