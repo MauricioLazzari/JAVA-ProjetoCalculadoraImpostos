@@ -1,3 +1,5 @@
+package calculadoraimpostos;
+
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -351,7 +353,7 @@ public class Calculadora extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel14.setText("CST");
 
-        cmbCST.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--", "00", "10", "20", "30", "40", "41", "50", "60", "70", "90" }));
+        cmbCST.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--", "00", "10", "20", "51", "70" }));
         cmbCST.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbCSTActionPerformed(evt);
@@ -488,17 +490,17 @@ public class Calculadora extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel17))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtBaseICMS, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtVlrICMS, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtVlrFCP, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(464, 464, 464)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtVlrICMS, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                    .addComponent(txtBaseICMS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtVlrFCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel21)
                 .addContainerGap())
         );
@@ -533,7 +535,9 @@ public class Calculadora extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -575,43 +579,56 @@ public class Calculadora extends javax.swing.JFrame {
        
         //Instânciando objeto icms da classe Imposto para calcular o icms próprio.
         Imposto icms = new Imposto();
+        
+        //Instanciando o objeto icmsst para da classe Imposto para calcularo icms st.
+        Imposto icmsst = new Imposto();
        
         //Variáveis responsáveis por coletar os dados digitados.
         //Replace para substituir a , por .
-        
-        
-        double vlrProduto = Double.parseDouble(txtVlrProduto.getText().replace(",", "."));
-        double vlrIPI = Double.parseDouble(txtVlrIPI.getText().replace(",", "."));
-        double vlrFrete = Double.parseDouble(txtVlrFrete.getText().replace(",", "."));
-        double vlrDespesa = Double.parseDouble(txtVlrDespesa.getText().replace(",", "."));
-        double vlrFcp = Double.parseDouble(txtFcp.getText().replace(",", "."));
+        float vlrProduto = Float.parseFloat(txtVlrProduto.getText().replace(",", "."));
+        float vlrIPI = Float.parseFloat(txtVlrIPI.getText().replace(",", "."));
+        float vlrFrete = Float.parseFloat(txtVlrFrete.getText().replace(",", "."));
+        float vlrDespesa = Float.parseFloat(txtVlrDespesa.getText().replace(",", "."));
+        float vlrFcp = Float.parseFloat(txtFcp.getText().replace(",", "."));
+        float mva = Float.parseFloat(txtMva.getText().replace(",", "."));
         
         String ufOrigem = cmbUfOrigem.getSelectedItem().toString();
         String ufDestino = cmbUfDestino.getSelectedItem().toString();
         String cst = cmbCST.getSelectedItem().toString();
         
         
-        double formatFcp = icms.getFcp();
-
+        float formatFcp = icms.getFcp();
+        
         if(ufOrigem == "--"){
             JOptionPane.showMessageDialog(null, "AVISO! Seleciona as UFs corretamente", "Aviso!", 2);
         }else{
             if(cst == "--"){  
             JOptionPane.showMessageDialog(null, "Seleciona uma CST", "Aviso", 2);
-            }else if(cst == "00"){
-            //Chamando o método de calculo do ICMS e passando valores como parâmetro.
+        }
+            
+        //SWITCH para validar a CST selecionada.
+        
+        switch(cst){
+            //Caso seja 00, valida o cálculo de ICMS integral.
+            case "00":
             icms.calculaICMS(vlrProduto, vlrIPI, vlrFrete, vlrDespesa, ufOrigem, vlrFcp);
-            String resultadobaseismc = new DecimalFormat("#,##0.00").format(icms.getBaseICMS());
-            txtBaseICMS.setText(resultadobaseismc);
+            String resultadobaseicms = new DecimalFormat("#,##0.00").format(icms.getBaseICMS());
+            txtBaseICMS.setText(resultadobaseicms);
             if(param.isArredonda() == true){
-                double formatIcms = icms.getVlrICMS();
+                float formatIcms = icms.getVlrICMS();
                 txtVlrICMS.setText(param.arredondaIcms(formatIcms));
                 }else if(param.isTrunca() == true){
                 double formatIcms = icms.getVlrICMS();
                 txtVlrICMS.setText(param.truncaICMS(formatIcms));
                 }else{
-                txtVlrICMS.setText("Nenhum dos parâmetros marcados");    
+                txtVlrICMS.setText(Float.toString(icms.getVlrICMS()));
             }
+            //Caso seja 10, valida o cálculo de ICMS ST.
+            case "10":
+                
+            break;
+            
+            default:
         }
         }
     }//GEN-LAST:event_btnCalcularActionPerformed
@@ -740,5 +757,5 @@ public class Calculadora extends javax.swing.JFrame {
     private javax.swing.JTextField txtVlrIPI;
     private javax.swing.JTextField txtVlrProduto;
     // End of variables declaration//GEN-END:variables
-    private JTextField txtVlrProduto = new JFormattedTextField(new MaskFormatter("######,##"));
+
 }

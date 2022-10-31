@@ -1,3 +1,5 @@
+package calculadoraimpostos;
+
 public class UF {
 
     private String UFs[][] = {
